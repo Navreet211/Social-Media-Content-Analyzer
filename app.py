@@ -1,5 +1,5 @@
 # ----------------------------------------
-# Social Media AI Suite - Portfolio Version
+# Social Media AI Suite - FINAL Portfolio Version
 # ----------------------------------------
 
 import streamlit as st
@@ -107,39 +107,89 @@ def analyze_content(text):
     return word_count, hashtag_count, sentiment, score
 
 # ----------------------------------------
-# SMART AI REWRITER (NO API)
+# CONTEXT-AWARE HASHTAG GENERATOR
+# ----------------------------------------
+
+def generate_context_hashtags(text):
+    text_lower = text.lower()
+
+    hashtag_map = {
+        "course": "#LearningJourney",
+        "certificate": "#Certification",
+        "completed": "#AchievementUnlocked",
+        "microsoft": "#Microsoft",
+        "sap": "#SAP",
+        "aicte": "#AICTE",
+        "technology": "#IR4.0",
+        "ir4.0": "#Industry40",
+        "digital": "#DigitalTransformation",
+        "foundation": "#SkillDevelopment",
+        "program": "#TechSaksham",
+        "mentor": "#Grateful",
+        "institute": "#HigherEducation"
+    }
+
+    detected_hashtags = []
+
+    for keyword, hashtag in hashtag_map.items():
+        if keyword in text_lower:
+            detected_hashtags.append(hashtag)
+
+    default_tags = [
+        "#CareerGrowth",
+        "#ProfessionalDevelopment",
+        "#FutureReady",
+        "#LinkedInLearning"
+    ]
+
+    while len(detected_hashtags) < 4:
+        tag = random.choice(default_tags)
+        if tag not in detected_hashtags:
+            detected_hashtags.append(tag)
+
+    return " ".join(detected_hashtags[:5])
+
+# ----------------------------------------
+# SMART CONTEXT-AWARE REWRITER
 # ----------------------------------------
 
 def rewrite_caption(text):
     text = text.strip()
+    lower_text = text.lower()
 
-    hooks = [
+    achievement_hooks = [
+        "🎉 Proud to share this milestone!",
+        "🌟 Another step forward!",
+        "🚀 Excited to announce this achievement!",
+        "🏆 Grateful for this accomplishment!",
+        "✨ Celebrating progress and growth!"
+    ]
+
+    growth_hooks = [
         "🔥 Stop scrolling!",
         "🚀 Want to grow faster?",
-        "💡 Here's something powerful:",
         "📈 Ready to level up?",
+        "💡 Here's something powerful:",
         "✨ This changes everything:"
     ]
 
     ctas = [
-        "👉 Follow for more tips!",
-        "💬 Comment your thoughts below!",
-        "❤️ Like & share if this helped!",
-        "📩 DM us to learn more!",
+        "👉 Follow for more updates!",
+        "💬 Would love to hear your thoughts!",
+        "❤️ Appreciate your support!",
         "🔔 Stay tuned for more insights!"
     ]
 
-    hashtag_pool = [
-        "#SocialMedia", "#MarketingTips", "#GrowthHacking",
-        "#ContentCreator", "#DigitalMarketing",
-        "#InstagramGrowth", "#BrandBuilding",
-        "#EntrepreneurLife", "#StartupLife", "#OnlineBusiness"
-    ]
+    # Detect context
+    if any(word in lower_text for word in 
+           ["completed", "certificate", "grateful", "excited", "achievement", "course"]):
+        hook = random.choice(achievement_hooks)
+    else:
+        hook = random.choice(growth_hooks)
 
-    hook = random.choice(hooks)
     cta = random.choice(ctas)
-    hashtags = random.sample(hashtag_pool, 4)
-    hashtag_string = " ".join(hashtags)
+
+    hashtags = generate_context_hashtags(text)
 
     improved_caption = f"""
 {hook}
@@ -148,7 +198,7 @@ def rewrite_caption(text):
 
 {cta}
 
-{hashtag_string}
+{hashtags}
 """
 
     return improved_caption
@@ -166,9 +216,7 @@ def dashboard():
         st.session_state.logged_in = False
         st.rerun()
 
-    # ----------------------------------------
-    # ANALYZER PAGE
-    # ----------------------------------------
+    # ---------------- ANALYZER ----------------
 
     if page == "Analyzer":
 
@@ -208,7 +256,7 @@ def dashboard():
                     st.progress(score / 100)
                     st.markdown(f"### 🔥 Engagement Score: {score}/100")
 
-                    # Analytics Chart
+                    # Chart
                     st.subheader("📈 Analytics Overview")
 
                     labels = ["Words", "Hashtags", "Sentiment x100"]
@@ -221,9 +269,7 @@ def dashboard():
                 else:
                     st.warning("No readable text found.")
 
-    # ----------------------------------------
-    # AI REWRITER PAGE
-    # ----------------------------------------
+    # ---------------- AI REWRITER ----------------
 
     if page == "AI Rewriter":
 
