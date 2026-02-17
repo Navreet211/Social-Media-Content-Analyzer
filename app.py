@@ -11,8 +11,6 @@ import re
 import matplotlib.pyplot as plt
 import random
 
-pytesseract.pytesseract.tesseract_cmd = r"D:\navreet\tesseract.exe"
-
 # ----------------------------------------
 # PAGE CONFIG
 # ----------------------------------------
@@ -309,3 +307,4 @@ st.markdown(
     "<center style='color: gray;'>Built by Navreet | 2026 | AI SaaS Portfolio Project</center>",
     unsafe_allow_html=True
 )
+
