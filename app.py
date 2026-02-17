@@ -1,5 +1,5 @@
 # ----------------------------------------
-# Social Media AI Suite - DARK AI VERSION
+# Social Media AI Suite - Premium Dark UI
 # ----------------------------------------
 
 import streamlit as st
@@ -22,48 +22,72 @@ st.set_page_config(
 )
 
 # ----------------------------------------
-# DARK THEME CUSTOM STYLE
+# PREMIUM DARK THEME CSS
 # ----------------------------------------
 
 st.markdown("""
 <style>
 
-/* Main Background */
+/* Main App Background */
 .stApp {
-    background-color: #0E1117;
-    color: white;
+    background-color: #0B0F19;
+    color: #FFFFFF;
 }
 
-/* Sidebar */
+/* Sidebar Background */
 section[data-testid="stSidebar"] {
-    background-color: #161B22;
+    background-color: #121826;
+}
+
+/* Sidebar Text */
+section[data-testid="stSidebar"] * {
+    color: #FFFFFF !important;
+}
+
+/* Sidebar Radio Buttons */
+div[role="radiogroup"] label {
+    color: #FFFFFF !important;
+    font-weight: 500;
 }
 
 /* Buttons */
 div.stButton > button {
-    background-color: #6C63FF;
+    background: linear-gradient(90deg, #6C63FF, #8A7CFF);
     color: white;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 10px 20px;
     border: none;
+    font-weight: 600;
 }
 
 div.stButton > button:hover {
-    background-color: #5a54e6;
+    background: linear-gradient(90deg, #5a54e6, #7b6eff);
 }
 
-/* Text Input */
-input, textarea {
-    background-color: #161B22 !important;
-    color: white !important;
-    border-radius: 8px !important;
-}
-
-/* Metric Cards */
-[data-testid="metric-container"] {
-    background-color: #161B22;
+/* File Uploader */
+[data-testid="stFileUploader"] {
+    background-color: #1A2238;
+    border-radius: 12px;
     padding: 15px;
-    border-radius: 10px;
+}
+
+/* Text Inputs */
+input, textarea {
+    background-color: #1A2238 !important;
+    color: white !important;
+    border-radius: 10px !important;
+}
+
+/* Metrics */
+[data-testid="metric-container"] {
+    background-color: #1A2238;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+/* Progress Bar */
+div[data-testid="stProgress"] > div > div {
+    background-color: #6C63FF;
 }
 
 </style>
@@ -82,9 +106,9 @@ if "logged_in" not in st.session_state:
 
 def landing_page():
     st.markdown("""
-    <div style='text-align:center; padding:100px 0;'>
-        <h1 style='font-size:60px;'>🚀 Social Media AI Suite</h1>
-        <p style='font-size:22px; color:gray;'>
+    <div style='text-align:center; padding:120px 0;'>
+        <h1 style='font-size:65px;'>🚀 Social Media AI Suite</h1>
+        <p style='font-size:22px; color:#B0B3C6;'>
         Analyze • Optimize • Rewrite • Grow
         </p>
     </div>
@@ -207,12 +231,14 @@ def rewrite_caption(text):
 
 def dashboard():
 
-    st.sidebar.title("Navigation")
+    st.sidebar.title("🚀 Navigation")
     page = st.sidebar.radio("Go to", ["Analyzer", "AI Rewriter", "Logout"])
 
     if page == "Logout":
         st.session_state.logged_in = False
         st.rerun()
+
+    # ---------------- ANALYZER ----------------
 
     if page == "Analyzer":
 
@@ -252,20 +278,27 @@ def dashboard():
                     st.progress(score / 100)
                     st.markdown(f"### 🔥 Engagement Score: {score}/100")
 
+                    # Chart
                     st.subheader("📈 Analytics Overview")
 
                     labels = ["Words", "Hashtags", "Sentiment x100"]
                     values = [wc, hc, sent * 100]
 
                     fig, ax = plt.subplots()
-                    ax.bar(labels, values)
-                    ax.set_facecolor("#0E1117")
-                    fig.patch.set_facecolor("#0E1117")
+                    fig.patch.set_facecolor('#0B0F19')
+                    ax.set_facecolor('#0B0F19')
+                    ax.bar(labels, values, color="#6C63FF")
                     ax.tick_params(colors='white')
+                    ax.spines['bottom'].set_color('white')
+                    ax.spines['left'].set_color('white')
+                    ax.title.set_color('white')
+
                     st.pyplot(fig)
 
                 else:
                     st.warning("No readable text found.")
+
+    # ---------------- AI REWRITER ----------------
 
     if page == "AI Rewriter":
 
@@ -300,6 +333,6 @@ else:
 
 st.markdown("---")
 st.markdown(
-    "<center style='color: gray;'>Built by Navreet | 2026 | AI SaaS Portfolio Project</center>",
+    "<center style='color: #B0B3C6;'>Built by Navreet | 2026 | AI SaaS Portfolio Project</center>",
     unsafe_allow_html=True
 )
