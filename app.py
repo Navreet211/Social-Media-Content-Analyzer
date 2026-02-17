@@ -1,5 +1,5 @@
 # ----------------------------------------
-# Social Media AI Suite - FINAL Portfolio Version
+# Social Media AI Suite - DARK AI VERSION
 # ----------------------------------------
 
 import streamlit as st
@@ -22,6 +22,54 @@ st.set_page_config(
 )
 
 # ----------------------------------------
+# DARK THEME CUSTOM STYLE
+# ----------------------------------------
+
+st.markdown("""
+<style>
+
+/* Main Background */
+.stApp {
+    background-color: #0E1117;
+    color: white;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: #161B22;
+}
+
+/* Buttons */
+div.stButton > button {
+    background-color: #6C63FF;
+    color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+}
+
+div.stButton > button:hover {
+    background-color: #5a54e6;
+}
+
+/* Text Input */
+input, textarea {
+    background-color: #161B22 !important;
+    color: white !important;
+    border-radius: 8px !important;
+}
+
+/* Metric Cards */
+[data-testid="metric-container"] {
+    background-color: #161B22;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# ----------------------------------------
 # SESSION STATE
 # ----------------------------------------
 
@@ -29,31 +77,13 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 # ----------------------------------------
-# LOGIN PAGE
-# ----------------------------------------
-
-def login_page():
-    st.markdown("<h1 style='text-align:center;'>🔐 Login</h1>", unsafe_allow_html=True)
-
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-
-    if st.button("Login"):
-        if username == "admin" and password == "1234":
-            st.session_state.logged_in = True
-            st.success("Login Successful!")
-            st.rerun()
-        else:
-            st.error("Invalid Credentials")
-
-# ----------------------------------------
 # LANDING PAGE
 # ----------------------------------------
 
 def landing_page():
     st.markdown("""
-    <div style='text-align:center; padding:80px 0;'>
-        <h1 style='font-size:55px;'>🚀 Social Media AI Suite</h1>
+    <div style='text-align:center; padding:100px 0;'>
+        <h1 style='font-size:60px;'>🚀 Social Media AI Suite</h1>
         <p style='font-size:22px; color:gray;'>
         Analyze • Optimize • Rewrite • Grow
         </p>
@@ -107,7 +137,7 @@ def analyze_content(text):
     return word_count, hashtag_count, sentiment, score
 
 # ----------------------------------------
-# CONTEXT-AWARE HASHTAG GENERATOR
+# HASHTAG GENERATOR
 # ----------------------------------------
 
 def generate_context_hashtags(text):
@@ -119,79 +149,49 @@ def generate_context_hashtags(text):
         "completed": "#AchievementUnlocked",
         "microsoft": "#Microsoft",
         "sap": "#SAP",
-        "aicte": "#AICTE",
         "technology": "#IR4.0",
-        "ir4.0": "#Industry40",
         "digital": "#DigitalTransformation",
-        "foundation": "#SkillDevelopment",
-        "program": "#TechSaksham",
-        "mentor": "#Grateful",
-        "institute": "#HigherEducation"
     }
 
-    detected_hashtags = []
+    detected = []
 
     for keyword, hashtag in hashtag_map.items():
         if keyword in text_lower:
-            detected_hashtags.append(hashtag)
+            detected.append(hashtag)
 
-    default_tags = [
-        "#CareerGrowth",
-        "#ProfessionalDevelopment",
-        "#FutureReady",
-        "#LinkedInLearning"
-    ]
+    defaults = ["#CareerGrowth", "#FutureReady", "#LinkedInLearning"]
 
-    while len(detected_hashtags) < 4:
-        tag = random.choice(default_tags)
-        if tag not in detected_hashtags:
-            detected_hashtags.append(tag)
+    while len(detected) < 4:
+        tag = random.choice(defaults)
+        if tag not in detected:
+            detected.append(tag)
 
-    return " ".join(detected_hashtags[:5])
+    return " ".join(detected[:5])
 
 # ----------------------------------------
-# SMART CONTEXT-AWARE REWRITER
+# REWRITER
 # ----------------------------------------
 
 def rewrite_caption(text):
-    text = text.strip()
-    lower_text = text.lower()
 
-    achievement_hooks = [
-        "🎉 Proud to share this milestone!",
-        "🌟 Another step forward!",
-        "🚀 Excited to announce this achievement!",
-        "🏆 Grateful for this accomplishment!",
-        "✨ Celebrating progress and growth!"
-    ]
-
-    growth_hooks = [
-        "🔥 Stop scrolling!",
-        "🚀 Want to grow faster?",
-        "📈 Ready to level up?",
-        "💡 Here's something powerful:",
-        "✨ This changes everything:"
+    hooks = [
+        "🚀 Big update!",
+        "🌟 Excited to share!",
+        "🔥 Something powerful:",
+        "✨ Proud moment!"
     ]
 
     ctas = [
-        "👉 Follow for more updates!",
-        "💬 Would love to hear your thoughts!",
-        "❤️ Appreciate your support!",
-        "🔔 Stay tuned for more insights!"
+        "👉 Follow for more!",
+        "💬 Drop your thoughts below!",
+        "❤️ Appreciate your support!"
     ]
 
-    # Detect context
-    if any(word in lower_text for word in 
-           ["completed", "certificate", "grateful", "excited", "achievement", "course"]):
-        hook = random.choice(achievement_hooks)
-    else:
-        hook = random.choice(growth_hooks)
-
+    hook = random.choice(hooks)
     cta = random.choice(ctas)
-
     hashtags = generate_context_hashtags(text)
 
-    improved_caption = f"""
+    return f"""
 {hook}
 
 {text}
@@ -200,8 +200,6 @@ def rewrite_caption(text):
 
 {hashtags}
 """
-
-    return improved_caption
 
 # ----------------------------------------
 # DASHBOARD
@@ -215,8 +213,6 @@ def dashboard():
     if page == "Logout":
         st.session_state.logged_in = False
         st.rerun()
-
-    # ---------------- ANALYZER ----------------
 
     if page == "Analyzer":
 
@@ -235,7 +231,7 @@ def dashboard():
                     text = extract_text_from_pdf(uploaded_file)
                 else:
                     image = Image.open(uploaded_file)
-                    st.image(image, width="stretch")
+                    st.image(image, use_column_width=True)
                     text = pytesseract.image_to_string(image)
 
                 if text.strip():
@@ -256,7 +252,6 @@ def dashboard():
                     st.progress(score / 100)
                     st.markdown(f"### 🔥 Engagement Score: {score}/100")
 
-                    # Chart
                     st.subheader("📈 Analytics Overview")
 
                     labels = ["Words", "Hashtags", "Sentiment x100"]
@@ -264,12 +259,13 @@ def dashboard():
 
                     fig, ax = plt.subplots()
                     ax.bar(labels, values)
+                    ax.set_facecolor("#0E1117")
+                    fig.patch.set_facecolor("#0E1117")
+                    ax.tick_params(colors='white')
                     st.pyplot(fig)
 
                 else:
                     st.warning("No readable text found.")
-
-    # ---------------- AI REWRITER ----------------
 
     if page == "AI Rewriter":
 
@@ -307,4 +303,3 @@ st.markdown(
     "<center style='color: gray;'>Built by Navreet | 2026 | AI SaaS Portfolio Project</center>",
     unsafe_allow_html=True
 )
-
