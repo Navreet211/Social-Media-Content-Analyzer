@@ -1,27 +1,32 @@
-Social Media AI Suite
+# Social Media Content Analyzer
 
-This project was built as part of a Software Engineering technical assessment. The objective was to create a working application that can extract text from PDFs or images and analyze social media content to suggest engagement improvements.
+## Project Overview
+The Social Media Content Analyzer is a web application built using Streamlit that helps analyze social media content in a simple and interactive way. The goal of this project was to create a working application that can process uploaded text or images and generate meaningful insights from the content.
 
-The application allows users to upload PDF files or scanned images. For PDFs, text is extracted using PyPDF2. For images, OCR is performed using Tesseract to retrieve readable text. Once the content is extracted, it is analyzed based on word count, hashtag usage, sentiment, and the presence of call-to-action phrases.
+## Features
+- Upload text files or images
+- Extract text from PDFs and images
+- Analyze content based on word usage, hashtags, sentiment, and engagement factors
+- Display results in a clean and user-friendly interface
 
-An engagement score (0–100) is generated using a simple rule-based scoring logic. The goal of the scoring system is to simulate how content quality and structure impact visibility and engagement on social media platforms.
+## Technologies Used
+- Python
+- Streamlit
+- PyPDF2
+- PyTesseract (OCR)
+- TextBlob (Sentiment Analysis)
+- Matplotlib
+- GitHub for version control and deployment
 
-The project also includes a caption optimization feature. Based on detected context (achievement, growth, announcement, etc.), the system rewrites the caption by adding structured hooks, CTAs, and relevant hashtags.
+## Live Application
+https://social-media-content-analyzer-ebtezbpfawbgej8bqzuzhd.streamlit.app/
 
-The application is built using Streamlit for both frontend and backend. TextBlob is used for sentiment analysis, Matplotlib for visualizations, Pillow for image handling, and PyTesseract for OCR.
+## Brief Write-up 
 
-The focus of this project was:
+This project was developed as part of a technical assessment to demonstrate practical problem-solving and full-stack application development using Python. The main idea was to build a tool that can analyze social media content and provide useful feedback to improve engagement.
 
-Clean and readable code structure
+The application allows users to upload PDF files or images. For PDFs, text is extracted using PyPDF2, and for images, OCR is performed using Tesseract to retrieve readable text. Once the text is extracted, it is analyzed based on word count, hashtag usage, sentiment, and the presence of call-to-action phrases. A simple rule-based scoring system generates an engagement score between 0 and 100.
 
-Modular function design
+Streamlit was used to design both the frontend and backend because it enables quick development and deployment of data-driven applications. The project structure was organized clearly to ensure smooth deployment on Streamlit Community Cloud.
 
-Basic error handling
-
-Loading states for better user experience
-
-Delivering a working solution within an 8-hour constraint
-
-This project demonstrates practical problem-solving, working with real-world file inputs, integrating third-party libraries, and building an end-to-end functional application.
-
-Built by Navreet 
+Overall, this project demonstrates integration of file handling, text processing, sentiment analysis, and web deployment into a complete working solution.
