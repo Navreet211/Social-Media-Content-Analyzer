@@ -1,0 +1,6 @@
+streamlit
+pytesseract
+pillow
+PyPDF2
+textblob
+matplotlib
